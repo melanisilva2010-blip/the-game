@@ -9,10 +9,10 @@ public class PasarLvl2 : MonoBehaviour
     [SerializeField] private GameObject canvas;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Personaje"))
         {
             StartCoroutine(DesvanecerPantalla());
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(2);
         }
     }
     IEnumerator DesvanecerPantalla()
@@ -20,6 +20,6 @@ public class PasarLvl2 : MonoBehaviour
         canvas.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         canvas.GetComponent<Image>().color = Color.clear;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
     }
 }

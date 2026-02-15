@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class TPD4 : MonoBehaviour
+public class PasaLvll2 : MonoBehaviour
 {
     [SerializeField] private GameObject canvas;
     private void OnTriggerEnter2D(Collider2D collision)
@@ -12,7 +12,7 @@ public class TPD4 : MonoBehaviour
         if (collision.CompareTag("Personaje"))
         {
             StartCoroutine(DesvanecerPantalla());
-            SceneManager.LoadScene(10);
+            SceneManager.LoadScene(3);
         }
     }
     IEnumerator DesvanecerPantalla()

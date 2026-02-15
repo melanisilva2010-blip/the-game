@@ -12,7 +12,7 @@ public class TPD2 : MonoBehaviour
         if (collision.CompareTag("Personaje"))
         {
             StartCoroutine(DesvanecerPantalla());
-            SceneManager.LoadScene(12);
+            SceneManager.LoadScene(7);
         }
     }
     IEnumerator DesvanecerPantalla()

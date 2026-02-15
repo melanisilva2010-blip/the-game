@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class TPD1 : MonoBehaviour
 {
+
     [SerializeField] private GameObject canvas;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Personaje"))
         {
             StartCoroutine(DesvanecerPantalla());
-            SceneManager.LoadScene(13);
+            SceneManager.LoadScene(8);
         }
     }
     IEnumerator DesvanecerPantalla()
@@ -23,3 +24,4 @@ public class TPD1 : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
     }
 }
+

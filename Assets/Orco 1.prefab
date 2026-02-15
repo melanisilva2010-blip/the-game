@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personaje: {fileID: 0}
-  detectionRadius: 5
+  detectionRadius: 6
   speed: 7
   dano: 5
   fuerzarebote: 5

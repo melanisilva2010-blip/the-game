@@ -16,29 +16,35 @@ EditorBuildSettings:
     guid: e067d1039fef46549a24aec93ea07a6b
   - enabled: 1
     path: Assets/Scenes/nivel 2.unity
-    guid: 6feba2a6931fd7b46a53b660ceb8bebd
-  - enabled: 1
-    path: Assets/Scenes/nivel 3.unity
-    guid: d79b0c34d4831024a9cb21ba576f759e
-  - enabled: 1
-    path: Assets/Scenes/nivel 4.unity
-    guid: 9426c6f0f5513a94a9787f75f97ee764
-  - enabled: 1
-    path: Assets/Scenes/nivel 5.unity
     guid: 64ecd9e9677a9624fbcae0c6b5b9a7f6
   - enabled: 1
-    path: Assets/Scenes/nivel 6.unity
+    path: Assets/Scenes/nivel 3.unity
     guid: f51d9573b1e270042bd2423328ecfae0
   - enabled: 1
-    path: Assets/Scenes/nivel 7.unity
-    guid: 6f7f7342d94459543940e12fdd7a86fa
-  - enabled: 1
-    path: Assets/Scenes/nivel 8.unity
+    path: Assets/Scenes/nivel 4.unity
     guid: 1586cccc3bedc034f84529146b8277d2
   - enabled: 1
-    path: Assets/Scenes/nivel 9.unity
+    path: Assets/Scenes/nivel 5.unity
     guid: 6cd53fec56d64114aaf583a13c31f3bd
   - enabled: 1
-    path: Assets/Scenes/nivel 10.unity
-    guid: 950c67a423fcdd2449eea316a30f6ea6
+    path: Assets/Scenes/dungeon/dungeon entry.unity
+    guid: 6cba6bb5850381341a9670fdaedd7fe4
+  - enabled: 1
+    path: Assets/Scenes/dungeon/inside dungeon.unity
+    guid: 828bb8e622b502b4a875abb7d982640e
+  - enabled: 1
+    path: Assets/Scenes/dungeon/dungeon 1.unity
+    guid: 5629c71ecc950eb44a8b8a98bb03420b
+  - enabled: 1
+    path: Assets/Scenes/dungeon/dungeon 2.unity
+    guid: 1e3ca8682f9a3fa44b43c7780530c111
+  - enabled: 1
+    path: Assets/Scenes/dungeon/dungeon 3.unity
+    guid: 504fe6a3e3ca82f408a0e1c2473bcf97
+  - enabled: 1
+    path: Assets/Scenes/dungeon/dungeon 4.unity
+    guid: 8c580564202956e499e095d77cf40796
+  - enabled: 1
+    path: Assets/Scenes/dungeon/dungeon 5.unity
+    guid: 46e76402566eb024ea1c1e96427dcf97
   m_configObjects: {}
