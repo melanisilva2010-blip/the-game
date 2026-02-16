@@ -4,95 +4,136 @@ using UnityEngine;
 
 public class Enemigo : MonoBehaviour
 {
-    public Transform personaje;
-    public float detectionRadius = 5f;  
+    [Header("Configuración")]
+    public float detectionRadius = 5f;
     public float speed = 2f;
-    public int dano = 5;
+    public int danoAlJugador = 10;
+    public float fuerzarebote = 5f;
+
+    [Header("Vida del Enemigo")]
+    public int vidaMax = 30;
+    private int vidaActual;
+
+    [Header("Referencias")]
+    public Transform personaje;
+
     private Rigidbody2D rb;
-    private Animation animator;
+    private Animator anim;
     private Vector2 movement;
     private bool recibiendoDano;
-    public float fuerzarebote = 5f;
-    private bool enMovimiento;
+    private bool estaMuerto = false;
+
+    // Variable para guardar el tamaño original del Inspector
+    private Vector3 escalaOriginal;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animation>();
+        anim = GetComponent<Animator>();
+
+        // GUARDAMOS EL TAMAÑO QUE TIENE EN EL INSPECTOR AL EMPEZAR
+        escalaOriginal = transform.localScale;
+
+        vidaActual = vidaMax;
+
+        if (personaje == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Personaje");
+            if (playerObj != null) personaje = playerObj.transform;
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (personaje == null || estaMuerto) return;
+
         float distanceToPlayer = Vector2.Distance(transform.position, personaje.position);
 
-        if (distanceToPlayer < detectionRadius)
+        if (distanceToPlayer < detectionRadius && !recibiendoDano)
         {
             Vector2 direction = (personaje.position - transform.position).normalized;
+
+            // CORRECCIÓN DEL TAMAÑO:
+            // Usamos escalaOriginal.x para que mantenga el tamaño que tú le pusiste
             if (direction.x < 0)
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                transform.localScale = new Vector3(-escalaOriginal.x, escalaOriginal.y, escalaOriginal.z);
             }
             else if (direction.x > 0)
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                transform.localScale = new Vector3(escalaOriginal.x, escalaOriginal.y, escalaOriginal.z);
             }
-            movement = direction;
 
-            enMovimiento = true;
+            movement = direction;
         }
         else
         {
             movement = Vector2.zero;
-            enMovimiento = false;
         }
-        if(!recibiendoDano)
-        rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
 
-
+        if (!recibiendoDano)
+        {
+            rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (estaMuerto) return;
+
         if (collision.gameObject.CompareTag("Personaje"))
         {
-            Vector2 direccionDano = new Vector2(transform.position.x, 0);
-            collision.gameObject.GetComponent<Personaje>().RecibeDano(direccionDano, 4);
+            Personaje scriptPersonaje = collision.gameObject.GetComponent<Personaje>();
+            if (scriptPersonaje != null)
+            {
+                Vector2 direccionDelGolpe = transform.position;
+                scriptPersonaje.RecibeDano(direccionDelGolpe, danoAlJugador);
+            }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (estaMuerto) return;
+
         if (collision.CompareTag("Espada"))
         {
-            Vector2 direccionDano = new Vector2(collision.gameObject.transform.position.x, 0);
-            RecibeDano(direccionDano, 4);
+            int danoEspada = 10;
+            Vector2 direccionAtaque = collision.transform.position;
+            TomarDano(direccionAtaque, danoEspada);
         }
     }
 
-    public void RecibeDano(Vector2 direccion, int cantDanio)
+    public void TomarDano(Vector2 direccion, int cantidad)
     {
-        if (!recibiendoDano)
+        if (!estaMuerto && !recibiendoDano)
         {
-            Debug.Log("Golpeado");
+            vidaActual -= cantidad;
             recibiendoDano = true;
             Vector2 rebote = new Vector2(transform.position.x - direccion.x, 1).normalized;
             rb.AddForce(rebote * fuerzarebote, ForceMode2D.Impulse);
             StartCoroutine(DesactivaDano());
+
+            if (vidaActual <= 0)
+            {
+                Morir();
+            }
         }
+    }
+
+    void Morir()
+    {
+        estaMuerto = true;
+        if (anim != null) anim.SetTrigger("Muerte");
+        GetComponent<Collider2D>().enabled = false;
+        rb.velocity = Vector2.zero;
+        Destroy(gameObject, 1.0f);
     }
 
     IEnumerator DesactivaDano()
     {
         yield return new WaitForSeconds(0.5f);
         recibiendoDano = false;
-        rb.velocity = Vector2.zero;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius-2);
+        if (!estaMuerto) rb.velocity = Vector2.zero;
     }
 }
-

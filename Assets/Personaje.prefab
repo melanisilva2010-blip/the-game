@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 945768934837936830}
   - component: {fileID: 4727098123664591270}
   - component: {fileID: 3603516587593256786}
-  - component: {fileID: 1191033056417866062}
   - component: {fileID: 230613436193259865}
   m_Layer: 0
   m_Name: Personaje
@@ -133,22 +132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidad: 140
-  colEspada: {fileID: 0}
-  fuerzarebote: 100
   vida: 100
---- !u!114 &1191033056417866062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1217376600812482175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35988a9acb4ad3542b9476e4be05ff9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  barraDeVida: {fileID: 0}
+  fuerzarebote: 100
+  colEspada: {fileID: 0}
 --- !u!212 &230613436193259865
 SpriteRenderer:
   m_ObjectHideFlags: 0
