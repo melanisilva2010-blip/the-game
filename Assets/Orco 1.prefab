@@ -100,11 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4190a24ada1697d46b056b831c09dd2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  personaje: {fileID: 0}
   detectionRadius: 6
-  speed: 7
-  dano: 5
+  speed: 4
+  danoAlJugador: 10
   fuerzarebote: 5
+  vidaMax: 30
+  personaje: {fileID: 5401817771550865615, guid: 9d6d0690a9b22974fa67f42ab97d543e,
+    type: 3}
 --- !u!61 &1776380141142836464
 BoxCollider2D:
   m_ObjectHideFlags: 0
