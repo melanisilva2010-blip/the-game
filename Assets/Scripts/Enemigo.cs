@@ -16,24 +16,17 @@ public class Enemigo : MonoBehaviour
 
     [Header("Referencias")]
     public Transform personaje;
-
     private Rigidbody2D rb;
     private Animator anim;
-    private Vector2 movement;
     private bool recibiendoDano;
     private bool estaMuerto = false;
-
-    // Variable para guardar el tamaño original del Inspector
     private Vector3 escalaOriginal;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-
-        // GUARDAMOS EL TAMAÑO QUE TIENE EN EL INSPECTOR AL EMPEZAR
         escalaOriginal = transform.localScale;
-
         vidaActual = vidaMax;
 
         if (personaje == null)
@@ -52,73 +45,39 @@ public class Enemigo : MonoBehaviour
         if (distanceToPlayer < detectionRadius && !recibiendoDano)
         {
             Vector2 direction = (personaje.position - transform.position).normalized;
+            // Giro del enemigo respetando su tamaño original
+            if (direction.x < 0) transform.localScale = new Vector3(-escalaOriginal.x, escalaOriginal.y, escalaOriginal.z);
+            else if (direction.x > 0) transform.localScale = new Vector3(escalaOriginal.x, escalaOriginal.y, escalaOriginal.z);
 
-            // CORRECCIÓN DEL TAMAÑO:
-            // Usamos escalaOriginal.x para que mantenga el tamaño que tú le pusiste
-            if (direction.x < 0)
-            {
-                transform.localScale = new Vector3(-escalaOriginal.x, escalaOriginal.y, escalaOriginal.z);
-            }
-            else if (direction.x > 0)
-            {
-                transform.localScale = new Vector3(escalaOriginal.x, escalaOriginal.y, escalaOriginal.z);
-            }
-
-            movement = direction;
-        }
-        else
-        {
-            movement = Vector2.zero;
-        }
-
-        if (!recibiendoDano)
-        {
-            rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
+            rb.MovePosition(rb.position + direction * speed * Time.deltaTime);
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (estaMuerto) return;
-
-        if (collision.gameObject.CompareTag("Personaje"))
-        {
-            Personaje scriptPersonaje = collision.gameObject.GetComponent<Personaje>();
-            if (scriptPersonaje != null)
-            {
-                Vector2 direccionDelGolpe = transform.position;
-                scriptPersonaje.RecibeDano(direccionDelGolpe, danoAlJugador);
-            }
-        }
-    }
-
+    // DETECCIÓN DE LA ESPADA (TRIGGER)
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (estaMuerto) return;
+        Debug.Log("ENEMIGO: He sido tocado por " + collision.gameObject.name + " con Tag: " + collision.tag);
 
-        if (collision.CompareTag("Espada"))
+        if (!estaMuerto && collision.CompareTag("Espada"))
         {
-            int danoEspada = 10;
-            Vector2 direccionAtaque = collision.transform.position;
-            TomarDano(direccionAtaque, danoEspada);
+            Debug.Log("ENEMIGO: ¡Recibí daño de la espada!");
+            TomarDano(collision.transform.position, 10);
         }
     }
 
-    public void TomarDano(Vector2 direccion, int cantidad)
+    public void TomarDano(Vector2 posAtaque, int cantidad)
     {
-        if (!estaMuerto && !recibiendoDano)
-        {
-            vidaActual -= cantidad;
-            recibiendoDano = true;
-            Vector2 rebote = new Vector2(transform.position.x - direccion.x, 1).normalized;
-            rb.AddForce(rebote * fuerzarebote, ForceMode2D.Impulse);
-            StartCoroutine(DesactivaDano());
+        if (recibiendoDano) return;
 
-            if (vidaActual <= 0)
-            {
-                Morir();
-            }
-        }
+        vidaActual -= cantidad;
+        recibiendoDano = true;
+
+        Vector2 rebote = new Vector2(transform.position.x - posAtaque.x, 1).normalized;
+        rb.AddForce(rebote * fuerzarebote, ForceMode2D.Impulse);
+
+        StartCoroutine(DesactivaDano());
+
+        if (vidaActual <= 0) Morir();
     }
 
     void Morir()
@@ -132,8 +91,18 @@ public class Enemigo : MonoBehaviour
 
     IEnumerator DesactivaDano()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         recibiendoDano = false;
         if (!estaMuerto) rb.velocity = Vector2.zero;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (estaMuerto) return;
+        if (collision.gameObject.CompareTag("Personaje"))
+        {
+            Personaje p = collision.gameObject.GetComponent<Personaje>();
+            if (p != null) p.RecibeDano(transform.position, danoAlJugador);
+        }
     }
 }
