@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRadius: 6
-  speed: 4
+  speed: 100
   danoAlJugador: 10
   fuerzarebote: 5
   vidaMax: 30

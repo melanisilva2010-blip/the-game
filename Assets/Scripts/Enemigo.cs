@@ -6,7 +6,7 @@ public class Enemigo : MonoBehaviour
 {
     [Header("Configuración")]
     public float detectionRadius = 5f;
-    public float speed = 2f;
+    public float speed = 200f; // Sube este valor (ej. 200-400) porque usamos FixedDeltaTime con velocidad
     public int danoAlJugador = 10;
     public float fuerzarebote = 5f;
 
@@ -21,6 +21,9 @@ public class Enemigo : MonoBehaviour
     private bool recibiendoDano;
     private bool estaMuerto = false;
     private Vector3 escalaOriginal;
+
+    // Variable para guardar la dirección y usarla en FixedUpdate
+    private Vector2 direccionMovimiento;
 
     void Start()
     {
@@ -41,38 +44,50 @@ public class Enemigo : MonoBehaviour
         if (personaje == null || estaMuerto) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, personaje.position);
+        bool moviendose = false;
 
+        // Solo calculamos la dirección en el Update
         if (distanceToPlayer < detectionRadius && !recibiendoDano)
         {
-            Vector2 direction = (personaje.position - transform.position).normalized;
-            // Giro del enemigo respetando su tamaño original
-            if (direction.x < 0) transform.localScale = new Vector3(-escalaOriginal.x, escalaOriginal.y, escalaOriginal.z);
-            else if (direction.x > 0) transform.localScale = new Vector3(escalaOriginal.x, escalaOriginal.y, escalaOriginal.z);
+            moviendose = true;
+            // Usamos normalized para que la velocidad sea constante como en tu Personaje
+            direccionMovimiento = (personaje.position - transform.position).normalized;
 
-            rb.MovePosition(rb.position + direction * speed * Time.deltaTime);
+            // Giro del enemigo
+            if (direccionMovimiento.x < 0) transform.localScale = new Vector3(-escalaOriginal.x, escalaOriginal.y, escalaOriginal.z);
+            else if (direccionMovimiento.x > 0) transform.localScale = new Vector3(escalaOriginal.x, escalaOriginal.y, escalaOriginal.z);
+        }
+        else
+        {
+            direccionMovimiento = Vector2.zero;
+        }
+
+        if (anim != null)
+        {
+            anim.SetBool("enMovimiento", moviendose);
         }
     }
 
-    // DETECCIÓN DE LA ESPADA (TRIGGER)
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void FixedUpdate()
     {
-        Debug.Log("ENEMIGO: He sido tocado por " + collision.gameObject.name + " con Tag: " + collision.tag);
+        if (estaMuerto || recibiendoDano) return;
 
-        if (!estaMuerto && collision.CompareTag("Espada"))
-        {
-            Debug.Log("ENEMIGO: ¡Recibí daño de la espada!");
-            TomarDano(collision.transform.position, 10);
-        }
+        // Aplicamos la velocidad igual que en tu script de Personaje
+        rb.velocity = direccionMovimiento * speed * Time.fixedDeltaTime;
     }
 
     public void TomarDano(Vector2 posAtaque, int cantidad)
     {
-        if (recibiendoDano) return;
+        if (recibiendoDano || estaMuerto) return;
 
         vidaActual -= cantidad;
         recibiendoDano = true;
 
-        Vector2 rebote = new Vector2(transform.position.x - posAtaque.x, 1).normalized;
+        if (anim != null) anim.SetBool("enMovimiento", false);
+
+        // Aplicamos rebote
+        Vector2 rebote = ((Vector2)transform.position - posAtaque).normalized;
+        rb.velocity = Vector2.zero; // Limpiamos velocidad antes del impulso
         rb.AddForce(rebote * fuerzarebote, ForceMode2D.Impulse);
 
         StartCoroutine(DesactivaDano());
@@ -83,9 +98,15 @@ public class Enemigo : MonoBehaviour
     void Morir()
     {
         estaMuerto = true;
-        if (anim != null) anim.SetTrigger("Muerte");
+        if (anim != null)
+        {
+            anim.SetBool("enMovimiento", false);
+            anim.SetTrigger("Muerte");
+        }
+
         GetComponent<Collider2D>().enabled = false;
         rb.velocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic; // Igual que tu personaje al morir
         Destroy(gameObject, 1.0f);
     }
 
@@ -93,7 +114,14 @@ public class Enemigo : MonoBehaviour
     {
         yield return new WaitForSeconds(0.4f);
         recibiendoDano = false;
-        if (!estaMuerto) rb.velocity = Vector2.zero;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!estaMuerto && collision.CompareTag("Espada"))
+        {
+            TomarDano(collision.transform.position, 10);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
