@@ -84,6 +84,13 @@ public class Personaje : MonoBehaviour
             }
         }
     }
+    public void UsarHabilidadRegeneracion()
+    {
+        float cantidadCuracion = 30f;
+        vida += cantidadCuracion;
+        if (vida > 100) vida = 100;
+        Debug.Log("Personaje: Regenerando vida desde botón UI.");
+    }
 
     private void Morir()
     {
@@ -94,8 +101,14 @@ public class Personaje : MonoBehaviour
         if (scriptBarraVida != null) Invoke("LlamarGameOver", 2.0f);
     }
 
-    private void LlamarGameOver() { scriptBarraVida.GameOver(); }
-    public void DesactivaDano() { recibiendoDano = false; }
+    private void LlamarGameOver() 
+    { 
+        scriptBarraVida.GameOver(); 
+    }
+    public void DesactivaDano()
+    { 
+        recibiendoDano = false;
+    }
 
     private void FixedUpdate()
     {
