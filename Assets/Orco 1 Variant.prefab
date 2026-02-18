@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &9000881928165277740
+--- !u!1001 &6548792796406140133
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -16,12 +16,12 @@ PrefabInstance:
     - target: {fileID: 6932453182242178398, guid: 419a3b71aea37c04b8cf15e4428ab83f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.544371
+      value: -7.152685
       objectReference: {fileID: 0}
     - target: {fileID: 6932453182242178398, guid: 419a3b71aea37c04b8cf15e4428ab83f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.69787
+      value: 3.2570539
       objectReference: {fileID: 0}
     - target: {fileID: 6932453182242178398, guid: 419a3b71aea37c04b8cf15e4428ab83f,
         type: 3}
@@ -71,12 +71,12 @@ PrefabInstance:
     - target: {fileID: 8651849686063330212, guid: 419a3b71aea37c04b8cf15e4428ab83f,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.5889363
+      value: 0.66279525
       objectReference: {fileID: 0}
     - target: {fileID: 8651849686063330212, guid: 419a3b71aea37c04b8cf15e4428ab83f,
         type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 0.51257855
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
