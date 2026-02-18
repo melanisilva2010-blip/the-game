@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8914785497513503920}
   - component: {fileID: 1776380141142836464}
   - component: {fileID: 7268968436635848007}
-  - component: {fileID: 7259984701261768910}
   - component: {fileID: 4925147904889684636}
+  - component: {fileID: 4892971753022902494}
   m_Layer: 0
   m_Name: Orco 1
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 558261909201994969}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.8831999, y: 3.0496, z: -3.3960571}
+  m_LocalPosition: {x: -10.460796, y: 0.091575146, z: -3.3960571}
   m_LocalScale: {x: 1.15, y: 1.15, z: 1.15}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -107,8 +107,7 @@ MonoBehaviour:
   danoAlJugador: 10
   fuerzarebote: 5
   vidaMax: 30
-  personaje: {fileID: 5401817771550865615, guid: 9d6d0690a9b22974fa67f42ab97d543e,
-    type: 3}
+  personaje: {fileID: 0}
 --- !u!61 &1776380141142836464
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -181,27 +180,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!95 &7259984701261768910
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 558261909201994969}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 02068ed610cca824fb7f9fb9277a8d76, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!70 &4925147904889684636
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -237,3 +215,24 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0270503, y: 0.032461002}
   m_Size: {x: 0.7864371, y: 1.1002189}
   m_Direction: 0
+--- !u!95 &4892971753022902494
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558261909201994969}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 02068ed610cca824fb7f9fb9277a8d76, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

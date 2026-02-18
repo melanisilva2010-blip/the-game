@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using Unity.VisualScripting;
+// using Unity.VisualScripting; // No es estrictamente necesario, lo comento para limpiar
 
 public class Dialogos : MonoBehaviour
 {
@@ -11,19 +11,24 @@ public class Dialogos : MonoBehaviour
     [SerializeField] private GameObject _goPanelDialogo;
     [SerializeField] private TMP_Text _tmpTextoDialogo;
 
-  
+    [Header("Imágenes de Personajes")]
+    [SerializeField] private GameObject _sprAvatar; // Arrastra aquí la imagen del Jugador
+    [SerializeField] private GameObject _sprNpc;    // Arrastra aquí la imagen del NPC
 
-    [Header("Opciones Extra")]
     [Tooltip("Si está marcado, el diálogo solo saldrá la primera vez.")]
-    [SerializeField] private bool _esDeUnSoloUso = true; // <--- ¡AQUÍ ESTÁ LA MAGIA!
+    [SerializeField] private bool _esDeUnSoloUso = true;
 
     private bool _blnDialogoActivo;
     private int _intLineaActual;
-    private bool _yaSeMostro = false; // Variable para recordar si ya salió
+    private bool _yaSeMostro = false;
 
     void Start()
     {
         _goPanelDialogo.SetActive(false);
+
+        // Opcional: Aseguramos que las imágenes arranquen ocultas si están fuera del panel
+        if (_sprAvatar != null) _sprAvatar.SetActive(false);
+        if (_sprNpc != null) _sprNpc.SetActive(false);
     }
 
     void Update()
@@ -44,9 +49,14 @@ public class Dialogos : MonoBehaviour
 
     public void ComenzarDialogo()
     {
-        Time.timeScale = 0f; // Pausa el juego
+        Time.timeScale = 0f;
         _blnDialogoActivo = true;
         _goPanelDialogo.SetActive(true);
+
+        // --- CORRECCIÓN: Activamos las imágenes explícitamente ---
+        if (_sprAvatar != null) _sprAvatar.SetActive(true);
+        if (_sprNpc != null) _sprNpc.SetActive(true);
+        // ---------------------------------------------------------
 
         _intLineaActual = 0;
         StartCoroutine(MostrarLineasDialogo());
@@ -67,8 +77,14 @@ public class Dialogos : MonoBehaviour
 
     public void CerrarDialogo()
     {
-        Time.timeScale = 1f; // Reanuda el juego
+        Time.timeScale = 1f;
         _blnDialogoActivo = false;
+
+        // --- CORRECCIÓN: Desactivamos las imágenes al cerrar ---
+        if (_sprAvatar != null) _sprAvatar.SetActive(false);
+        if (_sprNpc != null) _sprNpc.SetActive(false);
+        // -------------------------------------------------------
+
         _goPanelDialogo.SetActive(false);
         _tmpTextoDialogo.text = string.Empty;
         StopAllCoroutines();
@@ -80,7 +96,7 @@ public class Dialogos : MonoBehaviour
         foreach (char ch in _strLineasDialogo[_intLineaActual])
         {
             _tmpTextoDialogo.text += ch;
-            yield return new WaitForSecondsRealtime(0.05f); // Usa tiempo real para ignorar la pausa
+            yield return new WaitForSecondsRealtime(0.05f);
         }
     }
 
@@ -88,15 +104,12 @@ public class Dialogos : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Personaje"))
         {
-            // LÓGICA DE UN SOLO USO:
-            // Si está marcado como "Un solo uso" Y ya se mostró antes... NO hacemos nada.
             if (_esDeUnSoloUso && _yaSeMostro)
             {
-                return; // Se sale de la función aquí mismo
+                return;
             }
 
-            // Si llegamos aquí, es porque o se puede repetir, o es la primera vez
-            _yaSeMostro = true; // Lo marcamos como visto
+            _yaSeMostro = true;
             ComenzarDialogo();
         }
     }
