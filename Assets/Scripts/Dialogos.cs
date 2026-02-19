@@ -88,6 +88,7 @@ public class Dialogos : MonoBehaviour
         _goPanelDialogo.SetActive(false);
         _tmpTextoDialogo.text = string.Empty;
         StopAllCoroutines();
+        Destroy(gameObject);
     }
 
     IEnumerator MostrarLineasDialogo()
