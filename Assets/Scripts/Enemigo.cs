@@ -12,7 +12,7 @@ public class Enemigo : MonoBehaviour
 
     [Header("Vida del Enemigo")]
     public int vidaMax = 30;
-    private int vidaActual;
+    [SerializeField]private int vidaActual;
 
     [Header("Referencias")]
     public Transform personaje;
@@ -41,6 +41,7 @@ public class Enemigo : MonoBehaviour
 
     void Update()
     {
+        
         if (personaje == null || estaMuerto) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, personaje.position);
@@ -66,6 +67,7 @@ public class Enemigo : MonoBehaviour
         {
             anim.SetBool("enMovimiento", moviendose);
         }
+        anim.SetBool("EsGolpeado",recibiendoDano);
     }
 
     private void FixedUpdate()
@@ -79,7 +81,7 @@ public class Enemigo : MonoBehaviour
     public void TomarDano(Vector2 posAtaque, int cantidad)
     {
         if (recibiendoDano || estaMuerto) return;
-
+        Debug.Log("ME PEGASTE");
         vidaActual -= cantidad;
         recibiendoDano = true;
 
@@ -100,13 +102,14 @@ public class Enemigo : MonoBehaviour
         estaMuerto = true;
         if (anim != null)
         {
-            anim.SetBool("enMovimiento", false);
-            anim.SetTrigger("Muerte");
+            //anim.SetBool("enMovimiento", false);
+            anim.SetBool("EstaMuerto", estaMuerto);
         }
 
         GetComponent<Collider2D>().enabled = false;
         rb.velocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Kinematic; // Igual que tu personaje al morir
+        Debug.Log("Me mori");
         Destroy(gameObject, 1.0f);
     }
 

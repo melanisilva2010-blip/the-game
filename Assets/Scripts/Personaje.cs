@@ -61,11 +61,12 @@ public class Personaje : MonoBehaviour
         anim.SetTrigger("Ataca");
         Debug.Log("Personaje: Atacando...");
         // Red de seguridad si falla el evento de animación
-        Invoke("NoAtaca", 0.5f);
+        //Invoke("NoAtaca", 0.5f);
     }
 
     public void NoAtaca()
     {
+        //anim.SetTrigger("NoAtaca");
         atacando = false;
     }
 
