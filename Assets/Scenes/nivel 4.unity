@@ -1918,11 +1918,11 @@ MonoBehaviour:
   - '???: Dios! hay muchos orcos'
   - 'Sparks: y te lo dije, por suerte son medio ciegos y no se nos van a acerccar'
   - '???: Al menos algo bueno'
-  - '"Para atacar haga click izquierdo dos veces"'
+  - '"Para atacar haga click izquierdo"'
   _goPanelDialogo: {fileID: 1117284902}
   _tmpTextoDialogo: {fileID: 637416337}
-  _sprAvatar: {fileID: 0}
-  _sprNpc: {fileID: 0}
+  _sprAvatar: {fileID: 2130568044}
+  _sprNpc: {fileID: 1123221298}
   _esDeUnSoloUso: 1
 --- !u!61 &605301077
 BoxCollider2D:
@@ -2628,7 +2628,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1117284903
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3475,13 +3475,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1930960504}
-  - {fileID: 1131468255}
   - {fileID: 313200448}
   - {fileID: 185638256}
   - {fileID: 1637367341}
   - {fileID: 1290645680}
   - {fileID: 922416941}
   - {fileID: 1701058666}
+  - {fileID: 1131468255}
   - {fileID: 837867035}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8749,7 +8749,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0ff1235311422be4490e551ce399c5ad, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ba2cd768344051247b19048dd638c842, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

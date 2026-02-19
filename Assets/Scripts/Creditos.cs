@@ -42,7 +42,7 @@ public class Creditos : MonoBehaviour
     public void volverMenu()
     {
         Time.timeScale = 1f; // Importante: Reactivar el tiempo por si estaba pausado
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene(0);
     }
 
     public void ExitGame()
